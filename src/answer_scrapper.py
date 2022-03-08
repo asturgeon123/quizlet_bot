@@ -1,5 +1,5 @@
-from google_scrape import get_quizlet_links
-from quizlet_scrapper import get_quizlet_pairs
+from src.google_scrape import get_quizlet_links
+from src.quizlet_scrapper import get_quizlet_pairs
 from fuzzywuzzy import process
 
 
