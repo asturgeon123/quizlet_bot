@@ -1,14 +1,31 @@
 import sys
+import os
+from time import sleep
+
 from flask import Flask, send_from_directory, request,jsonify,render_template
 from flask_cors import CORS
 
 import webbrowser
 from multiprocessing import Process
 
-from time import sleep
+import parse
 
-from src.answer_scrapper import find_answer
 
+
+#SRC isnt importing in compiled version -- PROBLEM
+try:
+    from src.answer_scrapper import find_answer
+except ModuleNotFoundError:
+    scriptdir, script = os.path.split(os.path.abspath(__file__))
+    print(scriptdir)
+
+    #Import the SRC file from parent dir
+    path = scriptdir + r'\src'
+    sys.path.insert(0,path)
+    print(path)
+    from src.answer_scrapper import find_answer
+
+    
 
 
 app = Flask(__name__)
@@ -33,13 +50,21 @@ def open_browser():
     webbrowser.open('http:/127.0.0.1:5000')
     sys.exit()
 
-p = Process(target=open_browser)
+
+'''
+def main(): #Entry Point Function
+    if __name__ == '__main__':
+        p = Process(target=open_browser)
+        p.start()
+        app.run()
+'''
 
 
 if __name__ == '__main__':
-    p.start()
+    #p = Process(target=open_browser)
+    #p.start()
     app.run()
-    
+
 
     
 

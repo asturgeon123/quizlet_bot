@@ -4,6 +4,8 @@ $(document).ready(function () {
       question: $("#question").val()
     };
 
+
+    $('#answer_box').addClass('animated-gradient');
     $.ajax({
       type: "POST",
       url: "/question",
@@ -15,8 +17,11 @@ $(document).ready(function () {
       //$('form').reset();
       $("#form").trigger('reset');
       $("#answer_box").text(data);
+      $('#answer_box').removeClass('animated-gradient');
     });
 
     event.preventDefault();
   });
 });
+
+

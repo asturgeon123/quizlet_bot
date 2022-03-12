@@ -1,27 +1,72 @@
 from src.google_scrape import get_quizlet_links
 from src.quizlet_scrapper import get_quizlet_pairs
-from fuzzywuzzy import process
+#from fuzzywuzzy import process
+from thefuzz import process #Updated Version
 
+
+def get_best(query,questions,answers):
+    question = "Not Found"
+    answer = "Not Found"
+
+
+    highest_question = process.extractOne(query,questions)
+    highest_answer = process.extractOne(query,answers)
+
+    if highest_question > highest_answer:
+        index = highest_question.index(highest_question[0])
+        answer = answers[index]
+        question = questions[index]
+
+    elif highest_question < highest_answer:
+        index = highest_answer.index(highest_answer[0])
+        answer = questions[index]
+        question = answer[index]
+
+    #print("THE ANSWER")
+    #print(answer,question)
+    #print(questions)
+    return (question,answer)
+
+def get_page_pair(query,url): #A function to get the best match pair on the quizlet page
+        questions,answers = get_quizlet_pairs(url)
+        highest_question = process.extractOne(query,questions)
+        highest_answer = process.extractOne(query,answers)
+
+        if highest_question > highest_answer:
+            index = highest_question.index(highest_question[0])
+            answer = answers[index]
+            question = questions[index]
+
+        elif highest_question < highest_answer:
+            index = highest_answer.index(highest_answer[0])
+            answer = questions[index]
+            question = answer[index]
+
+        #print("THE ANSWER")
+        #print(answer,question)
+        #print(questions)
+        return (question,answer,url)
 
 
 
 def find_answer(query):
-    quiz_links = get_quizlet_links(query) #Get First Link
-    try:
-        questions,answers = get_quizlet_pairs(quiz_links[0])
-        highest = process.extractOne(query,questions)
-        print(highest)
+    answers = []
+    questions = []
+    for url in get_quizlet_links("quizlet"+query):
+        try:
+            questions,answers = get_quizlet_pairs(url)
+            pair1, pair2 = get_best(query,questions,answers)
 
-        index = questions.index(highest[0])
-        answer = answers[index]
+            questions.append(pair1)
+            answers.append(pair2)
+        except TypeError:
+            pass
 
-        print("THE ANSWER")
-        print(answer)
-        #print(questions)
-        return (questions,answer)
-        
-    except IndexError:
-        return ("Not Found","Not Found")
+    question, answer = get_best(query,questions,answers)
+    print("Final Answer")
+    print(question,answer)
+    return (question, answer)
+
 
 
 
