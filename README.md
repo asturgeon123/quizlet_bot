@@ -14,6 +14,7 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   npm install npm@latest -g
   ```
+* Python3
 
 ### Installation
 If for some reason you don't want the precompiled version, use the steps below to set it up. You will need python installed locally.
@@ -36,23 +37,26 @@ If for some reason you don't want the precompiled version, use the steps below t
    npm install
    ```
    
+   
 ### Starting
 1. Open Terminal in Folder
     ```
     cd quizlet_bot
     ```
 2. Start Electron Service
-  ```
-  npm start
-  ```
+   ```
+   npm start
+   ```
+   
+   
 ### Building
 1. Open Terminal in Folder
     ```
     cd quizlet_bot
     ```
 2. Building useing Electron-builder Service
-  ```
-  npm package
-  ```
+   ```
+   npm package
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
