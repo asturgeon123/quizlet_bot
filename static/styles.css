@@ -192,8 +192,35 @@ margin: auto;
   100% { background-position: -200% 0; }
 }
 
-
+/* Answer Box */
 .source-box {
     position: sticky;
 	color: #9b9b9b;
+  /* font-size: 4vw; */
+}
+
+
+/* Link Styling */
+a {
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  z-index: 1;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: .07em;
+  height: .1em;
+  width: 100%;
+  background: repeating-linear-gradient(to right, #11998e, #38ef7d, #11998e);
+  z-index: -1;
+  transition: height .25s cubic-bezier(.6,0,.4,1);
+}
+
+a:hover::after {
+  height: .2em;
 }

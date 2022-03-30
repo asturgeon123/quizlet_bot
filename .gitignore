@@ -1,3 +1,9 @@
 
 test.py
 installer.cfg
+
+dist/
+node_modules/
+out/
+src/__pycache__/answer_scrapper.cpython-38.pyc
+*.pyc

@@ -8,22 +8,9 @@ from flask_cors import CORS
 import webbrowser
 from multiprocessing import Process
 
-import parse
+#import parse
 
-
-
-#SRC isnt importing in compiled version -- PROBLEM
-try:
-    from src.answer_scrapper import find_answer
-except ModuleNotFoundError:
-    scriptdir, script = os.path.split(os.path.abspath(__file__))
-    print(scriptdir)
-
-    #Import the SRC file from parent dir
-    path = scriptdir + r'\src'
-    sys.path.insert(0,path)
-    print(path)
-    from src.answer_scrapper import find_answer
+from src.answer_scrapper import answer
 
     
 
@@ -39,11 +26,11 @@ def index():
 
 @app.route('/question', methods=['GET', 'POST'])
 def question():
-    data = request.form['question']  # pass the form field name as key
-    answer = find_answer(data)
+    question = request.form['question']  # pass the form field name as key
+    return_data = answer(question).find()
     #print(data)
 
-    return jsonify(answer[1]), 200
+    return jsonify(return_data), 200
 
 def open_browser():
     sleep(2)

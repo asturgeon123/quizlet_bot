@@ -1,11 +1,18 @@
 $(document).ready(function () {
+
+
+  $("#link_box").hide();
+  $("#question_box").hide();
+
+
+
   $("form").submit(function (event) {
     var formData = {
       question: $("#question").val()
     };
 
 
-    $('#answer_box').addClass('animated-gradient');
+    $('#main_box').addClass('animated-gradient');
     $.ajax({
       type: "POST",
       url: "/question",
@@ -16,8 +23,20 @@ $(document).ready(function () {
       console.log(data);
       //$('form').reset();
       $("#form").trigger('reset');
-      $("#answer_box").text(data);
-      $('#answer_box').removeClass('animated-gradient');
+
+      $("#answer_box").text(data['final_answer']);
+      $('#main_box').removeClass('animated-gradient');
+
+      //$("#link_box").text("Link: "+data["answer_link"]);
+      $("#link_box").attr("href", data["answer_link"])
+
+      $("#question_box").text("Question: "+data["final_question"]);
+
+      $("#question_box").show();
+      $("#link_box").show();
+
+      
+
     });
 
     event.preventDefault();
