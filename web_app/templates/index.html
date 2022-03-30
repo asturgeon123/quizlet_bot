@@ -5,15 +5,15 @@
 <title>Finder - Quizlet Search Tool</title>
 <link href="https://fonts.googleapis.com/css?family=Archivo+Black&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="GUI/styles.css">
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+<link rel="stylesheet" href="../static/styles.css">
+<!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}"> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script src="{{url_for('static', filename='javascript.js')}}"></script>
-<script src="GUI/javascript.js"></script>
+<!-- <script src="{{url_for('static', filename='javascript.js')}}"></script> -->
+<script src="../static/javascript.js"></script>
 </head>
 
 
@@ -40,8 +40,12 @@
 	</div>
 		
 	<div class="row">
-		<div id="answer_box" class="col mx-2 gradient-box">
-Enter a question above!
+		<div id="main_box" class="col mx-2 gradient-box">
+
+			<a id="link_box" href="url">Source Quizlet</a>
+			<div id="question_box" class="source-box">Found Question:</div>
+
+			<div id="answer_box" class="row align-items-center">Enter  question above!</div>
 	</div>
 	</div>
 	</div>

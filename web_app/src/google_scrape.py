@@ -1,6 +1,5 @@
 import requests
 import urllib
-import pandas as pd
 from requests_html import HTML
 from requests_html import HTMLSession
 

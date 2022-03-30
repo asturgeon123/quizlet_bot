@@ -1,14 +1,19 @@
 import sys
+import os
+from time import sleep
+
 from flask import Flask, send_from_directory, request,jsonify,render_template
 from flask_cors import CORS
 
 import webbrowser
 from multiprocessing import Process
 
-from time import sleep
+import parse
 
-from src.answer_scrapper import find_answer
+from src.answer_scrapper import answer
 
+
+#to build -- cd into directory and run "yarn run make"
 
 
 app = Flask(__name__)
@@ -22,24 +27,23 @@ def index():
 
 @app.route('/question', methods=['GET', 'POST'])
 def question():
-    data = request.form['question']  # pass the form field name as key
-    answer = find_answer(data)
+    question = request.form['question']  # pass the form field name as key
+    return_data = answer(question).find()
     #print(data)
 
-    return jsonify(answer[1]), 200
+    return jsonify(return_data), 200
 
 def open_browser():
     sleep(2)
     webbrowser.open('http:/127.0.0.1:5000')
     sys.exit()
 
-p = Process(target=open_browser)
-
 
 if __name__ == '__main__':
-    p.start()
-    app.run()
-    
+    #p = Process(target=open_browser)
+    #p.start()
+    app.run(threaded=True)
+
 
     
 
