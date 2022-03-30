@@ -1,16 +1,15 @@
 const path = require("path");
 
-
-
 const spawn = require("child_process").spawn,
   ls = spawn(
     "pyinstaller",
     [
       "-w",
       "--onefile",
-      "--add-data templates;templates",
-      "--add-data static;static",
-      "app.py",
+      `--add-data web_app/templates${path.delimiter}templates`,
+      `--add-data web_app/static${path.delimiter}static`,
+      "--distpath dist-python",
+      "web_app/run_app.py",
     ],
     {
       shell: true,
@@ -23,7 +22,7 @@ ls.stdout.on("data", function (data) {
 });
 
 ls.stderr.on("data", function (data) {
-  console.log("PyInstaller: " + data.toString());
+  console.log("Packaging error: " + data.toString());
 });
 ls.on("exit", function (code) {
   console.log("child process exited with code " + code.toString());

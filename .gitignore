@@ -1,9 +1,11 @@
-
-test.py
-installer.cfg
-
+build/
 dist/
+packages/
 node_modules/
-out/
-src/__pycache__/answer_scrapper.cpython-38.pyc
+.DS_Store
+*.py.swp
 *.pyc
+.idea
+package-lock.json
+*.spec
+.venv

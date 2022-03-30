@@ -1,73 +1,47 @@
 {
   "name": "Finder",
-  "version": "1.0.0",
-  "description": "A quizlet study application",
-  "main": "main.js",
+  "version": "0.0.9",
+  "description": "A study app",
+  "main": "renderer.js",
   "scripts": {
-    "start": "electron-forge start",
-    "app:dist": "electron-builder",
-    "package": "electron-forge package",
-    "make": "node package_python.js && npm run -s package-cleanup && electron-forge make ",
-    "package-cleanup": "rmdir /s build && del app.spec"
-  },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quizlet",
-    "study",
-    "help"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
-    "@electron-forge/maker-deb": "^6.0.0-beta.63",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
-    "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "^18.0.0"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "package": "node package_python.js && npm run -s package-electron && npm run -s package-cleanup",
+    "package-electron": "electron-builder --publish=never",
+    "package-cleanup": "DEL build -r && DEL run_app.spec -r  && DEL dist-python -r"
   },
   "build": {
-    "asar": true,
     "appId": "com.electron-flask.my-app",
     "productName": "Finder",
+    "asar": false,
+    "asarUnpack": [
+      "**/*.node"
+    ],
     "mac": {
       "category": "public.app-category.utilities"
     },
     "files": [
-      "renderer.js"
+      "renderer.js",
+      "icon.png",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist-python/",
+        "to": "app/dist-python",
+        "filter": [
+          "**/*"
+        ]
+      }
     ]
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^4.6.5",
-    "update-electron-app": "^2.0.1"
+    "ps-tree": "^1.2.0"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Finder"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+  "devDependencies": {
+    "electron": "^13.6.0",
+    "electron-builder": "^22.11.7"
   }
 }
