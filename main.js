@@ -4,32 +4,30 @@ const {app, BrowserWindow,autoUpdater, dialog } = require('electron')
 const path = require('path')
 require('update-electron-app')()
 
+let backend;
+//backend = path.join(process.cwd(), '/dist/app.exe')
+backend = path.join(process.cwd(), 'resources/app/dist/app.exe')
+var execfile = require('child_process').execFile;
+execfile(
+ backend,
+ {
+  windowsHide: true,
+ },
+ (err, stdout, stderr) => {
+  if (err) {
+  console.log(err);
+  }
+  if (stdout) {
+  console.log(stdout);
+  }
+  if (stderr) {
+  console.log(stderr);
+  }
+ }
+)
+
 
 function createWindow () {
-
-  let backend;
-  //backend = path.join(process.cwd(), '/dist/app.exe')
-  backend = path.join(process.cwd(), 'resources/app/dist/app.exe')
-  var execfile = require('child_process').execFile;
-  execfile(
-   backend,
-   {
-    windowsHide: true,
-   },
-   (err, stdout, stderr) => {
-    if (err) {
-    console.log(err);
-    }
-    if (stdout) {
-    console.log(stdout);
-    }
-    if (stderr) {
-    console.log(stderr);
-    }
-   }
-  )
-
-
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({

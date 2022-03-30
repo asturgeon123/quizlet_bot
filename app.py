@@ -8,11 +8,12 @@ from flask_cors import CORS
 import webbrowser
 from multiprocessing import Process
 
-#import parse
+import parse
 
 from src.answer_scrapper import answer
 
-    
+
+#to build -- cd into directory and run "yarn run make"
 
 
 app = Flask(__name__)
@@ -38,19 +39,10 @@ def open_browser():
     sys.exit()
 
 
-'''
-def main(): #Entry Point Function
-    if __name__ == '__main__':
-        p = Process(target=open_browser)
-        p.start()
-        app.run()
-'''
-
-
 if __name__ == '__main__':
     #p = Process(target=open_browser)
     #p.start()
-    app.run()
+    app.run(threaded=True)
 
 
     

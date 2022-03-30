@@ -28,6 +28,7 @@
     "electron": "^18.0.0"
   },
   "build": {
+    "asar": true,
     "appId": "com.electron-flask.my-app",
     "productName": "Finder",
     "mac": {
