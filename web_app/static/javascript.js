@@ -7,7 +7,18 @@ $(document).ready(function () {
 
 
   $("form").submit(function (event) {
-    var formData = {
+
+    request_search()
+
+
+    event.preventDefault();
+  });
+
+});
+
+function request_search() {
+
+      var formData = {
       question: $("#question").val()
     };
 
@@ -35,12 +46,5 @@ $(document).ready(function () {
       $("#question_box").show();
       $("#link_box").show();
 
-      
-
     });
-
-    event.preventDefault();
-  });
-});
-
-
+}

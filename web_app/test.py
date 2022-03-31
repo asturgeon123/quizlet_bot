@@ -9,6 +9,11 @@ from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 #from src import keyboard_manger
 import pyperclip
+from random import random
+from threading import Thread, Event
+
+
+
 
 import webbrowser
 from multiprocessing import Process
@@ -39,18 +44,6 @@ def auto_search():
 
     #socketio.emit('message',  {'data':'YOOOOOOOOOOO'},namespace='/autosearch')
 
-    last_data = None
-    while True:
-        sleep(0.2)
-        # get clipboard data
-        data = pyperclip.paste()
-        if last_data != data:
-            print("---- [!] ---- NEW DATA",data,flush=True)
-            last_data = data
-            #with app.test_request_context('/'):
-            print("EMITTINGGGGGGG",flush=True)
-            #emit('message',  {'data':data})
-            socketio.emit('message',  {'data':data},namespace='/autosearch')
 
 
     
@@ -75,17 +68,49 @@ def open_browser():
     webbrowser.open('http:/127.0.0.1:5000')
     sys.exit()
 
-def autosearch1():
+def autosearch():
     last_data = None
-    while True:
+    while not thread_stop_event.isSet():
         # get clipboard data
         data = pyperclip.paste()
         if data != last_data:
-            print("---- [!] ---- NEW DATA",data,flush=True)
             last_data = data
-            #with app.test_request_context('/'):
-            print("EMITTINGGGGGGG",flush=True)
-            socketio.emit('message',  {'data':data},namespace='/autosearch')
+            socketio.emit('newquery', {'query': last_data}, namespace='/test')
+
+
+def randomNumberGenerator():
+    """
+    Generate a random number every 1 second and emit to a socketio instance (broadcast)
+    Ideally to be run in a separate thread?
+    """
+    #infinite loop of magical random numbers
+    print("Making random numbers")
+    while not thread_stop_event.isSet():
+        number = round(random()*10, 3)
+        print(number)
+        socketio.emit('newquery', {'query': number}, namespace='/test')
+        socketio.sleep(5)
+
+
+#SocketIO Stuff
+thread = Thread()
+thread_stop_event = Event()
+
+@socketio.on('connect', namespace='/test')
+def test_connect():
+    # need visibility of the global thread object
+    global thread
+    print('Client connected')
+
+    #Start the autosearch thread only if the thread has not been started before.
+    if not thread.is_alive():
+        print("Starting Thread")
+        thread = socketio.start_background_task(autosearch)
+
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected')
+
 
 
 
