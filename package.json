@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "package": "node package_python.js && npm run -s package-electron && npm run -s package-cleanup",
+    "package1": "npm run -s package-electron && npm run -s package-cleanup",
     "package-electron": "electron-builder --publish=never",
     "package-cleanup": "DEL build -r && DEL run_app.spec -r  && DEL dist-python -r"
   },

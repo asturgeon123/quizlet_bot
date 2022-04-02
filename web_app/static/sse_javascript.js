@@ -1,14 +1,33 @@
  //Client-side Javascript code for handling clipboard queries
 $(document).ready(function(){
-    //connect to the socket server.
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-    var numbers_received = [];
 
-    //receive details from server
+    //Server Side - Without using socketIO
+    var last_data;
+    var intervalId = window.setInterval(function(){
+      $.ajax({
+        url: '/clipboard',
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
 
-    socket.on('newquery', function(msg) {
-        console.log("Received Query" + msg.query);
-        $("#question").val(msg.query)
-        request_search()
+            if (data.data !== last_data) {
+                console.log("Received new query" + data.data);
+                $("#question").val(data.data)
+                last_data = data.data
+                request_search()
+                
+            }
+
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+        });
+    }, 800);
 });
-});
+
+
+
+
+
+

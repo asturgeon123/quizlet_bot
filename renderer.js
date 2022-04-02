@@ -28,7 +28,7 @@ const getPythonScriptPath = () => {
     );
   }
   return path.join(__dirname, PY_DIST_FOLDER, PY_MODULE);
-};
+}; 
 
 const startPythonSubprocess = () => {
   let script = getPythonScriptPath();
