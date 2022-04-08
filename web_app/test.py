@@ -28,9 +28,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-
-
-
 @app.route("/")
 def index():
     #return send_from_directory('', 'index.html')
@@ -58,8 +55,6 @@ def open_browser():
     sleep(2)
     webbrowser.open('http:/127.0.0.1:5000')
     sys.exit()
-
-
 
 
 

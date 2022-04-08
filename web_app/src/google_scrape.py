@@ -15,7 +15,7 @@ def get_source(url):
 
 def scrape_google(query):
     query = urllib.parse.quote_plus(query)
-    response = get_source("https://www.google.co.uk/search?q=" + query)
+    response = get_source("https://www.google.com/search?q=" + query)
     links = list(response.html.absolute_links)
     google_domains = ('https://www.google.', 
                       'https://google.', 
@@ -32,11 +32,26 @@ def scrape_google(query):
 def get_quizlet_links(query):
     print("[1] Scraping Google")
     scrapper = scrape_google(query)
-    print(scrapper)
-    print("\nLinks Found =============================================")
     links = []
     for i in scrapper:
         if "quizlet.com" in i:
             print(i)
             links.append(i)
+    print("    -- Returned {0} links".format(len(links)))
     return links
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+
+    query_test = "quizlet Different dynamics (from softest to loudest)"
+    get_quizlet_links(query_test)

@@ -1,7 +1,8 @@
 "use strict";
 
-const { app, BrowserWindow } = require("electron");
+const {app, BrowserWindow, Menu} = require('electron');
 const path = require("path");
+const {autoUpdater} = require("electron-updater");
 
 // Keep a global reference of the mainWindowdow object, if you don't, the mainWindowdow will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -29,7 +30,7 @@ const getPythonScriptPath = () => {
   }
   return path.join(__dirname, PY_DIST_FOLDER, PY_MODULE);
 }; 
-
+ 
 const startPythonSubprocess = () => {
   let script = getPythonScriptPath();
   if (isRunningInBundle()) {
@@ -71,20 +72,23 @@ const createMainWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    // transparent: true, // transparent header bar
+    //transparent: true, // transparent header bar
     icon: __dirname + "/icon.png",
     // fullscreen: true,
     // opacity:0.8,
-    // darkTheme: true,
+    darkTheme: true,
     // frame: false,
     resizeable: true,
+    autoHideMenuBar: false,
+    webPreferences: {
+        nodeIntegration: true}
   });
 
   // Load the index page
   mainWindow.loadURL("http://localhost:5000/");
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the mainWindow is closed.
   mainWindow.on("closed", function () {
@@ -100,12 +104,14 @@ app.on("ready", function () {
   // start the backend server
   startPythonSubprocess();
   createMainWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+  
 });
 
 // disable menu
-app.on("browser-window-created", function (e, window) {
-  window.setMenu(null);
-});
+//app.on("browser-window-created", function (e, window) {
+//  window.setMenu(null);
+//});
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
@@ -125,7 +131,7 @@ app.on("activate", () => {
   if (subpy == null) {
     startPythonSubprocess();
   }
-  if (win === null) {
+  if (mainWindow === null) {
     createMainWindow();
   }
 });
@@ -133,3 +139,41 @@ app.on("activate", () => {
 app.on("quit", function () {
   // do some additional cleanup
 });
+
+// AutoUpdate Sections
+
+
+
+function sendStatusToWindow(text) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
+}
+
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+})
+autoUpdater.on('update-available', (info) => {
+  sendStatusToWindow('Update available.');
+})
+autoUpdater.on('update-not-available', (info) => {
+  sendStatusToWindow('Update not available.');
+})
+autoUpdater.on('error', (err) => {
+  sendStatusToWindow('Error in auto-updater. ' + err);
+})
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  sendStatusToWindow(log_message);
+})
+autoUpdater.on('update-downloaded', (info) => {
+  sendStatusToWindow('Update downloaded');
+});
+
+
+app.on('window-all-closed', () => {
+  app.quit();
+});
+

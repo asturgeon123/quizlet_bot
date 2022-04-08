@@ -1,29 +1,23 @@
-const path = require("path");
 
-const spawn = require("child_process").spawn,
-  ls = spawn(
-    "pyinstaller",
-    [
-      "-w",
-      "--onefile",
-      `--add-data web_app/templates${path.delimiter}templates`,
-      `--add-data web_app/static${path.delimiter}static`,
-      "--distpath dist-python",
-      "web_app/run_app.py",
-    ],
-    {
-      shell: true,
+
+
+
+
+
+const { exec } = require("child_process");
+
+
+const command = "conda activate quizlet_app && pyinstaller -w --onefile --add-data web_app/templates;templates --add-data web_app/static;static --distpath dist-python web_app/run_app.py && conda deactivate";
+
+
+exec(command, (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
     }
-  );
-
-ls.stdout.on("data", function (data) {
-  // stream output of build process
-  console.log(data.toString());
-});
-
-ls.stderr.on("data", function (data) {
-  console.log("Packaging error: " + data.toString());
-});
-ls.on("exit", function (code) {
-  console.log("child process exited with code " + code.toString());
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
 });

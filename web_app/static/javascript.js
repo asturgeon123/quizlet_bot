@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
   $("#link_box").hide();
   $("#question_box").hide();
 

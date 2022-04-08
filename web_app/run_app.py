@@ -21,7 +21,18 @@ from src.answer_scrapper import answer
 
 
 
-#to build -- cd into directory and run "yarn run make"
+"""
+COMANDS
+conda activate C:\\Users\\astur\\OneDrive\\Documents\\GitHub\\quizlet_bot\\quizlet_app2
+
+to build -- cd into directory and run "npm run package1 or package"
+
+pyinstaller -w --onefile --add-data=web_app/templates:templates --add-data=web_app/static:static --distpath dist-python web_app/run_app.py
+
+"""
+
+
+
 
 
 app = Flask(__name__)
@@ -37,7 +48,7 @@ def index():
 @app.route('/question', methods=['GET', 'POST'])
 def question():
     question = request.form['question']  # pass the form field name as key
-    return_data = answer(question).find()
+    return_data = answer().find_best(question)
     #print(data)
 
     return jsonify(return_data), 200

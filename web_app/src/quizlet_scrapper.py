@@ -15,3 +15,4 @@ def get_quizlet_pairs(url):
 
 
     return (question_list,answer_list)
+

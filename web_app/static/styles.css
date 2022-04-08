@@ -41,7 +41,30 @@ h2 {
   font-size: 1em;
   text-align: center;
   margin-bottom: 0;
+}
+
+h4 {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: normal;
+  font-size: 1em;
+  text-color: #9b9b9b;
+  text-align: center;
   margin-bottom: 0;
+  margin-top: 0;
+}
+
+footer {
+	font-family: "Archivo Black", sans-serif;
+    font-weight:normal;
+	font-size: .7em;
+	
+	text-align: center;
+	margin-bottom: 50;
+	margin-bottom: 0;
+	color: #9b9b9b;
+	float:center;
+	position:absolute;
+	bottom: 0%;
 }
 
 .center {
@@ -224,3 +247,4 @@ a::after {
 a:hover::after {
   height: .2em;
 }
+

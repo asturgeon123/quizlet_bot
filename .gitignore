@@ -1,5 +1,6 @@
 build/
 dist/
+quizlet_app2/
 packages/
 node_modules/
 .DS_Store

@@ -1,6 +1,6 @@
 {
   "name": "Finder",
-  "version": "0.0.9",
+  "version": "0.0.5",
   "description": "A study app",
   "main": "renderer.js",
   "scripts": {
@@ -8,10 +8,17 @@
     "start": "electron .",
     "package": "node package_python.js && npm run -s package-electron && npm run -s package-cleanup",
     "package1": "npm run -s package-electron && npm run -s package-cleanup",
-    "package-electron": "electron-builder --publish=never",
-    "package-cleanup": "DEL build -r && DEL run_app.spec -r  && DEL dist-python -r"
+    "package-electron": "electron-builder --win --publish=always",
+    "package-cleanup": "echo Cleaning Up... && rd /s /q build && rd /s /q dist-python"
   },
   "build": {
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "asturgeon123",
+        "repo": "quizlet_bot"
+      }
+    ],
     "appId": "com.electron-flask.my-app",
     "productName": "Finder",
     "asar": false,
@@ -39,6 +46,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron-updater": "^4.6.5",
     "ps-tree": "^1.2.0"
   },
   "devDependencies": {
